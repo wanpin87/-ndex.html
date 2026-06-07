@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz de Cultura Hispânica</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4efe8;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    header {
+      background: #b31312;
+      color: white;
+      text-align: center;
+      padding: 25px;
+    }
+
+    main {
+      max-width: 700px;
+      margin: 30px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    .question {
+      font-size: 22px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #f0c808;
+    }
+
+    .options button:hover {
+      background: #ffd84d;
+    }
+
+    #next-btn, #restart-btn {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #2274a5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .correct {
+      background: #55a630 !important;
+      color: white;
+    }
+
+    .wrong {
+      background: #d00000 !important;
+      color: white;
+    }
+
+    #score {
+      font-size: 20px;
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Quiz de Cultura Hispânica</h1>
+    <p>Países, capitais, cinema, literatura, música, arte e gastronomia</p>
+  </header>
+
+  <main>
+    <h2 id="category">Categoria</h2>
+    <div id="question" class="question"></div>
+    <div id="options" class="options"></div>
+
+    <button id="next-btn">Próxima pergunta</button>
+    <button id="restart-btn">Reiniciar quiz</button>
+
+    <div id="score"></div>
+  </main>
+
+  <footer>
+    Criado por Wanessa Pinheiro
+  </footer>
+
+  <script>
+    const quiz = [
+      {
+        category: "Países",
+        question: "Qual destes países NÃO tem o espanhol como língua oficial?",
+        options: ["Argentina", "México", "Brasil", "Colômbia"],
+        answer: "Brasil"
+      },
+      {
+        category: "Capitais",
+        question: "Qual é a capital da Espanha?",
+        options: ["Barcelona", "Madrid", "Sevilha", "Valência"],
+        answer: "Madrid"
+      },
+      {
+        category: "Capitais",
+        question: "Qual é a capital da Argentina?",
+        options: ["Córdoba", "Rosário", "Buenos Aires", "Mendoza"],
+        answer: "Buenos Aires"
+      },
+      {
+        category: "Moedas",
+        question: "Qual é a moeda oficial do México?",
+        options: ["Peso mexicano", "Euro", "Real", "Dólar mexicano"],
+        answer: "Peso mexicano"
+      },
+      {
+        category: "Literatura",
+        question: "Quem escreveu Dom Quixote?",
+        options: ["Federico García Lorca", "Miguel de Cervantes", "Pablo Neruda", "Gabriel García Márquez"],
+        answer: "Miguel de Cervantes"
+      },
+      {
+        category: "Literatura",
+        question: "Gabriel García Márquez nasceu em qual país?",
+        options: ["Chile", "Peru", "Colômbia", "Uruguai"],
+        answer: "Colômbia"
+      },
+      {
+        category: "Pintura",
+        question: "Qual pintor espanhol é famoso pela obra Guernica?",
+        options: ["Pablo Picasso", "Diego Rivera", "Salvador Dalí", "Joan Miró"],
+        answer: "Pablo Picasso"
+      },
+      {
+        category: "Pintura",
+        question: "Frida Kahlo era de qual país?",
+        options: ["Espanha", "México", "Chile", "Cuba"],
+        answer: "México"
+      },
+      {
+        category: "Cinema",
+        question: "Pedro Almodóvar é um famoso diretor de cinema de qual país?",
+        options: ["Argentina", "Espanha", "México", "Colômbia"],
+        answer: "Espanha"
+      },
+      {
+        category: "Cinema",
+        question: "O filme 'O Labirinto do Fauno' foi dirigido por:",
+        options: ["Guillermo del Toro", "Pedro Almodóvar", "Alejandro Amenábar", "Luis Buñuel"],
+        answer: "Guillermo del Toro"
+      },
+      {
+        category: "Gastronomia",
+        question: "A paella é um prato típico de qual país?",
+        options: ["México", "Espanha", "Peru", "Argentina"],
+        answer: "Espanha"
+      },
+      {
+        category: "Gastronomia",
+        question: "O ceviche é muito associado à culinária de qual país?",
+        options: ["Peru", "Paraguai", "Espanha", "Guatemala"],
+        answer: "Peru"
+      },
+      {
+        category: "Música",
+        question: "O flamenco é uma manifestação cultural associada principalmente a:",
+        options: ["Andaluzia", "Catalunha", "Galícia", "País Basco"],
+        answer: "Andaluzia"
+      },
+      {
+        category: "Cantores",
+        question: "Shakira nasceu em qual país?",
+        options: ["México", "Colômbia", "Espanha", "Argentina"],
+        answer: "Colômbia"
+      },
+      {
+        category: "Cantores",
+        question: "Rosalía é uma cantora de qual país?",
+        options: ["Espanha", "Chile", "Cuba", "Uruguai"],
+        answer: "Espanha"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const categoryElement = document.getElementById("category");
+    const questionElement = document.getElementById("question");
+    const optionsElement = document.getElementById("options");
+    const nextButton = document.getElementById("next-btn");
+    const restartButton = document.getElementById("restart-btn");
+    const scoreElement = document.getElementById("score");
+
+    function showQuestion() {
+      resetState();
+
+      let questionData = quiz[currentQuestion];
+
+      categoryElement.textContent = questionData.category;
+      questionElement.textContent = questionData.question;
+
+      questionData.options.forEach(option => {
+        const button = document.createElement("button");
+        button.textContent = option;
+        button.addEventListener("click", () => selectAnswer(button, questionData.answer));
+        optionsElement.appendChild(button);
+      });
+    }
+
+    function resetState() {
+      nextButton.style.display = "none";
+      scoreElement.textContent = "";
+      optionsElement.innerHTML = "";
+    }
+
+    function selectAnswer(button, correctAnswer) {
+      const allButtons = optionsElement.querySelectorAll("button");
+
+      allButtons.forEach(btn => {
+        btn.disabled = true;
+
+        if (btn.textContent === correctAnswer) {
+          btn.classList.add("correct");
+        }
+      });
+
+      if (button.textContent === correctAnswer) {
+        score++;
+      } else {
+        button.classList.add("wrong");
+      }
+
+      nextButton.style.display = "inline-block";
+    }
+
+    nextButton.addEventListener("click", () => {
+      currentQuestion++;
+
+      if (currentQuestion < quiz.length) {
+        showQuestion();
+      } else {
+        showResult();
+      }
+    });
+
+    function showResult() {
+      categoryElement.textContent = "Resultado final";
+      questionElement.textContent = "";
+      optionsElement.innerHTML = "";
+      nextButton.style.display = "none";
+      restartButton.style.display = "inline-block";
+
+      scoreElement.textContent = `Você acertou ${score} de ${quiz.length} perguntas.`;
+    }
+
+    restartButton.addEventListener("click", () => {
+      currentQuestion = 0;
+      score = 0;
+      restartButton.style.display = "none";
+      showQuestion();
+    });
+
+    showQuestion();
+  </script>
+
+</body>
+</html>
